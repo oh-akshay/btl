@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Openhouse Programs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --oh-orange: #ef5d34;
+      --oh-orange-light: #ffe2d7;
+      --bg: #f7f7f9;
+      --text-main: #222222;
+      --text-muted: #666666;
+      --card-bg: #ffffff;
+      --radius-lg: 18px;
+      --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+ 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #fffaf7 0, #f7f7f9 60%, #f0f0f3 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    .app-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 16px 16px 32px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 4px 16px;
+      position: sticky;
+      top: 0;
+      background: linear-gradient(to bottom, rgba(247,247,249,1) 0%, rgba(247,247,249,0.9) 60%, rgba(247,247,249,0) 100%);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+
+    .header-back {
+      font-size: 12px;
+      color: var(--text-main);
+      background: #ffffff;
+      border: 1px solid #dedee8;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      visibility: hidden;
+    }
+
+    .header-back.visible {
+      visibility: visible;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--oh-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(239, 93, 52, 0.4);
+    }
+
+    .brand-text h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-cta {
+      font-size: 12px;
+      color: var(--oh-orange);
+      background: var(--oh-orange-light);
+      border-radius: 999px;
+      padding: 6px 12px;
+      border: none;
+      font-weight: 600;
+    }
+
+    /* Prefer larger tap targets on tablets */
+    @media (min-width: 700px) {
+      .header-cta { padding: 8px 14px; }
+      .header-back { padding: 8px 12px; }
+    }
+
+    main {
+      margin-top: 8px;
+    }
+
+    /* Intro / Home */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 12px 8px 4px;
+    }
+
+    .hero-left h2 {
+      font-size: 32px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-left h2 span {
+      color: var(--oh-orange);
+    }
+
+    .hero-left p {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.45;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+      margin-bottom: 4px;
+    }
+
+    .hero-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #e5e5ec;
+    }
+
+    .hero-right {
+      justify-self: center;
+    }
+
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 16px;
+      max-width: 360px;
+    }
+
+    .hero-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .hero-card-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      flex: 1;
+      min-width: 90px;
+      background: #fff7f3;
+      border-radius: 12px;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    .hero-stat span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .age-section {
+      margin-top: 12px;
+      padding: 12px 8px;
+    }
+
+    .age-label {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .age-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    /* Two-up grid for binary choices */
+    .two-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    @media (max-width: 700px) { .two-grid { grid-template-columns: minmax(0, 1fr); } }
+
+    /* Home options grid: 1 / 2 / 3 columns */
+    .options-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    @media (min-width: 700px) { .options-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+    @media (min-width: 1000px) { .options-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+
+    .age-card {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 20px;
+      padding: 18px 16px 16px;
+      border: 1px solid #ececf2;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 96px;
+    }
+    .age-card.square-card { aspect-ratio: 1 / 1; justify-content: center; }
+    .square-card .age-card-main { flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+    .square-card .age-card-title { text-align: center; }
+    .square-card .age-card-sub { text-align: center; }
+    .square-card .age-card-arrow { font-size: 22px; opacity: 0.7; }
+
+    /* Smaller, lighter home cards */
+    .home-choices .age-card { padding: 14px 12px; min-height: 84px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); border-color: #eee; }
+    .home-choices .age-card-title { font-size: 18px; font-weight: 600; }
+    .home-choices .age-card-sub { font-size: 12px; }
+    .home-choices .age-card-arrow { font-size: 20px; }
+
+    /* Option card content hierarchy */
+    .option-title { font-size: 22px; font-weight: 600; }
+    .option-age { font-size: 14px; font-style: italic; color: var(--text-muted); }
+    .option-desc { font-size: 13px; color: var(--text-muted); max-width: 22ch; }
+
+    /* iPad-friendly option size */
+    @media (min-width: 700px) {
+      .options-grid .age-card.square-card { min-height: 220px; padding: 22px 18px; }
+      .options-grid .option-title { font-size: 24px; }
+      .options-grid .option-age { font-size: 15px; }
+      .options-grid .age-card-arrow { font-size: 24px; }
+    }
+
+    /* iPad-friendly sizing for two-up squares */
+    @media (min-width: 700px) {
+      .two-grid { gap: 18px; }
+      .two-grid .age-card.square-card { min-height: 220px; padding: 22px 18px; }
+      .two-grid .age-card.square-card .age-card-title { font-size: 22px; }
+      .two-grid .age-card.square-card .age-card-sub { font-size: 14px; }
+      .two-grid .age-card.square-card .age-card-arrow { font-size: 24px; }
+    }
+
+    .age-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      border-color: var(--oh-orange-light);
+    }
+
+    .age-card-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .age-card-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .age-card-badge {
+      font-size: 11px;
+      background: var(--oh-orange-light);
+      color: var(--oh-orange);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .age-card-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .age-card-arrow {
+      font-size: 24px;
+      line-height: 1;
+      color: var(--oh-orange);
+      font-weight: 700;
+    }
+
+    /* Programs view */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 4px 12px;
+      margin-top: 4px;
+    }
+
+    .toolbar-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .toolbar-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      max-width: 420px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      border: 1px solid #dedee8;
+      color: var(--text-main);
+    }
+
+    .btn-primary {
+      background: var(--oh-orange);
+      color: #ffffff;
+      box-shadow: 0 8px 16px rgba(239, 93, 52, 0.4);
+    }
+
+    .btn-icon {
+      font-size: 14px;
+    }
+
+    .program-layout {
+      padding: 6px 4px 16px;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .program-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid #ececf2;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .program-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .program-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .program-age-pill {
+      font-size: 11px;
+      background: #f3f3fb;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: var(--text-muted);
+    }
+
+    .program-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .meta-pill {
+      background: #f6f6fc;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .program-points {
+      font-size: 12px;
+      color: var(--text-main);
+      padding-left: 16px;
+    }
+
+    .program-points li + li {
+      margin-top: 3px;
+    }
+
+    .program-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      gap: 10px;
+    }
+
+    .program-cta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .program-note {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: right;
+      flex: 1;
+    }
+
+    .toggle-details {
+      font-size: 11px;
+      color: var(--oh-orange);
+      border: none;
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .program-details {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: -2px;
+      margin-bottom: 4px;
+      display: none;
+    }
+
+    .program-details.visible {
+      display: block;
+    }
+
+    /* Tabs and video grid */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 8px 4px 4px;
+    }
+    .tab {
+      border-radius: 999px;
+      border: 1px solid #dedee8;
+      background: #fff;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+    .tab.active {
+      background: var(--oh-orange-light);
+      color: var(--oh-orange);
+      border-color: var(--oh-orange-light);
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 6px 4px 16px;
+    }
+    .video-card { background: var(--card-bg); border: 1px solid #ececf2; border-radius: 14px; box-shadow: var(--shadow-soft); overflow: hidden; cursor: pointer; }
+    .video-aspect { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+    .video-aspect iframe, .video-aspect video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .video-thumb { position: absolute; inset: 0; background-size: cover; background-position: center; }
+    .play-badge { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; border-radius: 999px; background: rgba(0,0,0,0.6); display: grid; place-items: center; }
+    .play-badge::before { content: ""; display: block; width: 0; height: 0; border-left: 18px solid #fff; border-top: 12px solid transparent; border-bottom: 12px solid transparent; margin-left: 6px; }
+    .video-title { font-size: 12px; padding: 8px 10px; color: var(--text-main); }
+
+    /* Lightbox overlay */
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 100; }
+    .lightbox.visible { display: flex; }
+    .lightbox-inner { position: relative; width: min(920px, 92vw); aspect-ratio: 16 / 9; background: #000; border-radius: 10px; overflow: hidden; }
+    .lightbox iframe, .lightbox video { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .lightbox-close { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; border-radius: 999px; padding: 6px 10px; cursor: pointer; font-size: 12px; }
+    .lightbox-footer { position: absolute; bottom: 8px; left: 10px; right: 10px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 12px; opacity: 0.9; }
+    .lightbox-ext { color: #fff; text-decoration: underline; }
+    .video-note { font-size: 11px; color: var(--text-muted); padding: 0 10px 10px; }
+
+    /* Grade programs layout with left nav */
+    html { scroll-behavior: smooth; }
+    .grade-layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; }
+    .cat-nav { position: sticky; top: 64px; align-self: start; display: flex; flex-direction: column; gap: 8px; }
+    .cat-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid #dedee8; background: #fff; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-main); }
+    .cat-item .cat-illustration { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; background: #f6f6fc; }
+    .cat-item.active { border-color: var(--oh-orange-light); background: var(--oh-orange-light); color: var(--oh-orange); }
+    .cat-section { margin-bottom: 24px; }
+    .cat-section-title { font-size: 16px; font-weight: 700; margin: 6px 0 8px; }
+
+    /* Responsive: collapse left nav on smaller screens */
+    @media (max-width: 900px) {
+      .grade-layout { grid-template-columns: minmax(0, 1fr); }
+      .cat-nav { position: relative; top: 0; flex-direction: row; overflow-x: auto; padding-bottom: 4px; }
+      .cat-item { white-space: nowrap; }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .program-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .video-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .app-shell {
+        padding: 12px 12px 24px;
+      }
+
+      header {
+        padding-inline: 0;
+      }
+
+      .hero-left h2 {
+        font-size: 26px;
+      }
+
+      .hero-left p {
+        font-size: 13px;
+      }
+
+      .age-label {
+        font-size: 12px;
+      }
+
+      .age-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .toolbar-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <div class="brand">
+        <button id="back-btn" class="header-back" type="button" aria-label="Go back" style="margin-right:8px;">← Back</button>
+        <div class="brand-logo">oh</div>
+        <div class="brand-text">
+          <h1>openhouse</h1>
+          <p>Play-based learning for curious kids</p>
+        </div>
+      </div>
+      <button class="header-cta" type="button">
+        Book a centre visit
+      </button>
+    </header>
+
+    <main id="app-root">
+      <!-- Content injected by JS -->
+    </main>
+  </div>
+
+  <script src="media/media.js"></script>
+  <script>
+    // ---------- DATA MODEL ----------
+    const ageGroups = [
+      {
+        id: "1_5_to_3",
+        label: "1.5 – 3 years",
+        shortLabel: "1.5–3 yrs",
+        badge: "Parent–Toddler",
+        blurb:
+          "Gentle parent–toddler sessions that focus on sensory play, bonding, and early routines.",
+        programs: [
+          {
+            id: "toddler-club",
+            name: "Toddler Club",
+            ageBand: "1.5 – 3 years",
+            format: "Parent–child, 60–75 min sessions",
+            frequency: "2–3 sessions per week",
+            focusTags: ["Sensory play", "Social comfort", "Routines"],
+            keyPoints: [
+              "Guided playtime with songs, stories, and movement.",
+              "Easy routines to help little ones settle into group spaces.",
+              "Perfect first step before preschool."
+            ],
+            details:
+              "Toddler Club is designed for first-time explorers who are just getting used to group settings. Sessions blend free play, simple activities, and lots of parent–child connection so your child feels safe while discovering new experiences."
+          }
+        ]
+      },
+      {
+        id: "3_to_5",
+        label: "3 – 5 years",
+        shortLabel: "3–5 yrs",
+        badge: "Preschool & Foundation",
+        blurb:
+          "Foundational programs that build language, early numeracy, art, music, and movement through play.",
+        programs: [
+          {
+            id: "preschool",
+            name: "Preschool Program",
+            ageBand: "3 – 6 years",
+            format: "Weekday program",
+            frequency: "5 days a week",
+            focusTags: ["Early literacy", "Numeracy", "Independence"],
+            keyPoints: [
+              "Montessori-inspired environment with rich play materials.",
+              "Small group activities for language, math, and world discovery.",
+              "Daily art, music, and movement built into the routine."
+            ],
+            details:
+              "Our preschool program blends structured routines with open play. Children explore reading readiness, number sense, and the world around them through hands-on activities. We focus on independence, confidence, and a genuine love for learning."
+          },
+          {
+            id: "after-school-foundation",
+            name: "Discovery+ Foundations",
+            ageBand: "3.5 – 6 years",
+            format: "After-school program",
+            frequency: "2–3 sessions per week",
+            focusTags: ["Art & STEM", "Music", "Language"],
+            keyPoints: [
+              "Mix of art, STEM, language, music, and movement clubs.",
+              "Designed for preschoolers who love to explore different interests.",
+              "Great add-on for children already going to school."
+            ],
+            details:
+              "Discovery+ Foundations gives young children a chance to try multiple afterschool themes in one place—STEM, art & design, music, and early literacy. Sessions are playful, short, and highly engaging, perfect for apartment communities."
+          }
+        ]
+      },
+      {
+        id: "5_to_10",
+        label: "5 – 10 years",
+        shortLabel: "5–10 yrs",
+        badge: "Afterschool Clubs",
+        blurb:
+          "Focused afterschool programs where children go deep into music, STEM, public speaking, and more.",
+        programs: [
+          {
+            id: "music",
+            name: "Music Program",
+            ageBand: "5 – 10 years",
+            format: "Afterschool, small-group",
+            frequency: "1–2 sessions per week",
+            focusTags: ["Rhythm", "Instruments", "Confidence"],
+            keyPoints: [
+              "Structured music curriculum with fun songs and games.",
+              "Introduction to rhythm, notation basics, and instruments.",
+              "Regular showcases to build stage confidence."
+            ],
+            details:
+              "Our music program is built to make children fall in love with music while also learning structure and discipline. Children work with rhythm games, body percussion, and instruments, and gradually learn to perform in front of an audience."
+          },
+          {
+            id: "stem",
+            name: "STEM & Robotics",
+            ageBand: "6 – 10 years",
+            format: "Afterschool, project-based",
+            frequency: "1–2 sessions per week",
+            focusTags: ["Robotics", "Problem-solving", "Hands-on"],
+            keyPoints: [
+              "Build simple machines, robots, and real-world STEM projects.",
+              "Experiment, test, and tweak designs in a playful way.",
+              "Perfect for curious tinkerers and builders."
+            ],
+            details:
+              "In our STEM & Robotics sessions, children use kits and real materials to build, test, and improve their creations. They practise problem-solving, teamwork, and creativity while doing genuinely exciting projects."
+          },
+          {
+            id: "public-speaking",
+            name: "Public Speaking & Communication",
+            ageBand: "6 – 10 years",
+            format: "Afterschool, small-group",
+            frequency: "1 session per week",
+            focusTags: ["Confidence", "Storytelling", "Voice"],
+            keyPoints: [
+              "Playful games to practise voice, gestures, and storytelling.",
+              "Safe, encouraging environment for shy and outgoing kids alike.",
+              "Regular mini-presentations and end-of-term showcases."
+            ],
+            details:
+              "This program helps children find their voice. Through games, role-play, and storytelling, they practise speaking clearly, listening to others, and sharing ideas in front of a group."
+          }
+        ]
+      }
+    ];
+
+    // Homepage options (simplified parent choices)
+    const homepageOptions = [
+      {
+        key: "parent-toddler",
+        title: "Parent–Toddler Experiences",
+        age: "Ages 9 to 24 months",
+        desc: "Ideal if you’re not putting your child into preschool immediately",
+        onClick: () => navigateToParentToddler()
+      },
+      {
+        key: "preschool",
+        title: "Preschool",
+        age: "Ages 12 months to 5 years",
+        desc: "For parents looking to start their child’s education",
+        onClick: () => navigateToPreschoolIntro()
+      },
+      {
+        key: "extracurriculars",
+        title: "Extracurriculars",
+        age: "Ages 3 to 10",
+        desc: "All‑round exposure across music, art, STEM, and more",
+        onClick: () => navigateToGrades() // revert to age/grade flow with category videos
+      }
+    ];
+
+    // App state
+    let currentAgeGroupId = null;
+
+    const root = document.getElementById("app-root");
+
+    function render() {
+      const route = parseHash();
+      if (route.type === "home") {
+        renderHome();
+      } else if (route.type === "toddler-choice") {
+        renderToddlerChoice();
+      } else if (route.type === "preschool-intro") {
+        renderPreschoolIntro();
+      } else if (route.type === "parent-toddler") {
+        renderParentToddler();
+      } else if (route.type === "grades") {
+        renderGrades();
+      } else if (route.type === "grade") {
+        renderGradePrograms(route.id);
+      } else if (route.type === "combined") {
+        renderProgramsCombined(route.ids);
+      } else if (route.type === "group") {
+        renderPrograms(route.id);
+      } else {
+        renderHome();
+      }
+      updateBackButton();
+    }
+
+    // ---------- ROUTER ----------
+    function parseHash() {
+      const raw = (window.location.hash || "").replace(/^#/, "");
+      if (!raw || raw === "home") return { type: "home" };
+      if (raw === "toddler-choice") return { type: "toddler-choice" };
+      if (raw === "preschool-intro") return { type: "preschool-intro" };
+      if (raw === "parent-toddler") return { type: "parent-toddler" };
+      if (raw === "grades") return { type: "grades" };
+      if (raw.startsWith("grade:")) return { type: "grade", id: raw.slice(6) };
+      if (raw.startsWith("g:")) return { type: "group", id: raw.slice(2) };
+      if (raw.startsWith("gc:"))
+        return { type: "combined", ids: raw.slice(3).split(",").filter(Boolean) };
+      return { type: "home" };
+    }
+
+    function syncStateFromHash() {
+      const route = parseHash();
+      if (route.type === "home") currentAgeGroupId = null;
+      if (route.type === "group") currentAgeGroupId = route.id;
+      if (route.type === "combined") currentAgeGroupId = route.ids;
+      render();
+    }
+
+    function navigateHome() {
+      if (window.location.hash !== "") window.location.hash = "";
+      else {
+        currentAgeGroupId = null;
+        render();
+      }
+    }
+
+    function navigateToGroup(id) { window.location.hash = `g:${id}`; }
+
+    function navigateToCombined(ids) { window.location.hash = `gc:${ids.join(",")}`; }
+
+    function navigateToGrades() { window.location.hash = "grades"; }
+    function navigateToGrade(id) { window.location.hash = `grade:${id}`; }
+    function navigateToToddlerChoice() { window.location.hash = "toddler-choice"; }
+    function navigateToPreschoolIntro() { window.location.hash = "preschool-intro"; }
+    function navigateToParentToddler() { window.location.hash = "parent-toddler"; }
+
+    function updateBackButton() {
+      const btn = document.getElementById("back-btn");
+      if (!btn) return;
+      const atHome = parseHash().type === "home";
+      if (atHome) btn.classList.remove("visible");
+      else btn.classList.add("visible");
+    }
+
+    // ---------- DOM HELPERS ----------
+    function h(tag, options = {}, children = []) {
+      const el = document.createElement(tag);
+      if (options.className) el.className = options.className;
+      if (options.text) el.textContent = options.text;
+      if (options.html) el.innerHTML = options.html;
+      if (options.attrs) {
+        Object.entries(options.attrs).forEach(([k, v]) => el.setAttribute(k, v));
+      }
+      if (options.onClick) {
+        el.addEventListener("click", options.onClick);
+      }
+      (Array.isArray(children) ? children : [children]).forEach((child) => {
+        if (child === null || child === undefined) return;
+        if (typeof child === "string") {
+          el.appendChild(document.createTextNode(child));
+        } else {
+          el.appendChild(child);
+        }
+      });
+      return el;
+    }
+
+    // ---------- MEDIA HELPERS ----------
+    function ytThumb(id) {
+      return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    }
+    function createVideoCard(v) {
+      const isYt = !!v.yt;
+      const thumb = v.poster || (isYt ? ytThumb(v.yt) : null);
+      return h('div', { className: 'video-card', onClick: () => openVideo(v) }, [
+        h('div', { className: 'video-aspect' }, [
+          thumb ? h('div', { className: 'video-thumb', attrs: { style: `background-image:url(${thumb})` } }) : null,
+          h('div', { className: 'play-badge' })
+        ]),
+        h('div', { className: 'video-title', text: v.title })
+      ]);
+    }
+
+    // ---------- VIEWS ----------
+    function renderToddlerChoice() {
+      root.innerHTML = "";
+      const hero = h("section", { className: "hero" }, [
+        h("div", { className: "hero-left" }, [
+          h("h2", { text: "For under-30-months" }),
+          h("p", { text: "Pick the option that fits you best." })
+        ])
+      ]);
+
+      const options = [
+        { id: 'A', title: 'I am keen to put my child in a preschool / daycare soon (by January)', action: navigateToPreschoolIntro },
+        { id: 'B', title: 'My child is too young to think of school right away, but I am keen to explore parent–toddler experiences', action: navigateToParentToddler }
+      ];
+      const grid = h(
+        'div',
+        { className: 'two-grid' },
+        options.map((o) =>
+          h(
+            'button',
+            { className: 'age-card square-card', attrs: { type: 'button' }, onClick: o.action },
+            [
+              h('div', { className: 'age-card-main' }, [
+                h('div', {}, [
+                  h('div', { className: 'age-card-title', text: o.title }),
+                ]),
+                h('div', { className: 'age-card-arrow', text: '›' })
+              ])
+            ]
+          )
+        )
+      );
+      const section = h('section', { className: 'age-section' }, [
+        h('div', { className: 'age-label', text: 'Choose an option' }),
+        grid
+      ]);
+
+      root.appendChild(hero);
+      root.appendChild(section);
+    }
+
+    function renderPreschoolIntro() {
+      root.innerHTML = '';
+      const cfg = window.MEDIA_PRESCHOOL || {};
+      const videos = Array.isArray(cfg.videos) && cfg.videos.length ? cfg.videos : [
+        { title: 'Campus Tour', yt: 'ysz5S6PUM-U' },
+        { title: 'A Day at Preschool', yt: 'C0DPdy98e4c' },
+        { title: 'Parent Stories', yt: 'V-_O7nl0Ii0' }
+      ];
+      const deck = cfg.deck || 'media/preschool/deck.pdf';
+
+      const toolbar = h('section', { className: 'toolbar' }, [
+        h('div', {}, [
+          h('div', { className: 'toolbar-title', text: 'Preschool / Daycare Overview' }),
+          h('p', { className: 'toolbar-sub', text: 'Watch quick intro videos and view our deck.' })
+        ]),
+        h('div', { className: 'toolbar-actions' }, [
+          h('button', { className: 'btn btn-secondary', attrs: { type: 'button' }, onClick: () => navigateToToddlerChoice() }, [ h('span', { className: 'btn-icon', text: '←' }), 'Back' ]),
+          h('button', { className: 'btn btn-secondary', attrs: { type: 'button' }, onClick: () => navigateHome() }, [ h('span', { className: 'btn-icon', text: '↺' }), 'Start' ])
+        ])
+      ]);
+
+      const vidsGrid = h('div', { className: 'video-grid' }, videos.slice(0,3).map((v) => createVideoCard(v)));
+
+      const deckCard = h('article', { className: 'program-card' }, [
+        h('div', { className: 'program-header' }, [
+          h('div', {}, [ h('div', { className: 'program-name', text: 'Preschool Deck' }) ]),
+          h('div', { className: 'program-meta' }, [ h('span', { className: 'meta-pill', text: 'PDF' }) ])
+        ]),
+        h('p', { className: 'program-details visible', text: 'Open or download the deck to learn more about our philosophy, routine, and admissions.' }),
+        h('div', { className: 'program-footer' }, [
+          h('div', { className: 'program-cta' }, [
+            h('a', { attrs: { href: deck, target: '_blank', rel: 'noopener noreferrer', class: 'btn btn-primary' } }, 'Open deck')
+          ]),
+          h('div', { className: 'program-note', text: 'Deck opens in a new tab.' })
+        ])
+      ]);
+
+      const layout = h('section', { className: 'program-layout' }, [ vidsGrid, deckCard ]);
+      root.appendChild(toolbar);
+      root.appendChild(layout);
+    }
+
+    function renderParentToddler() {
+      root.innerHTML = '';
+      const cats = [ 'toddler-sensory', 'toddler-bonding', 'toddler-music' ];
+
+      const toolbar = h('section', { className: 'toolbar' }, [
+        h('div', {}, [
+          h('div', { className: 'toolbar-title', text: 'Parent–Toddler Experiences' }),
+          h('p', { className: 'toolbar-sub', text: 'Explore sample sessions with notes. Tap categories on the left.' })
+        ]),
+        h('div', { className: 'toolbar-actions' }, [
+          h('button', { className: 'btn btn-secondary', attrs: { type: 'button' }, onClick: () => navigateToToddlerChoice() }, [ h('span', { className: 'btn-icon', text: '←' }), 'Back' ]),
+          h('button', { className: 'btn btn-secondary', attrs: { type: 'button' }, onClick: () => navigateHome() }, [ h('span', { className: 'btn-icon', text: '↺' }), 'Start' ])
+        ])
+      ]);
+
+      function displayName(cat) {
+        return cat.replace('toddler-', '').replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+      }
+      function catEmoji(cat) {
+        const map = { 'toddler-sensory': '🧪', 'toddler-bonding': '🫶', 'toddler-music': '🎶' };
+        return map[cat] || '⭐';
+      }
+
+      function createVideoGrid(cat) {
+        const items = mediaLibrary[cat] || [
+          { title: 'Sample Session 1', yt: 'dQw4w9WgXcQ', note: 'Gentle introduction with parent–child play.' },
+          { title: 'Sample Session 2', yt: 'C0DPdy98e4c', note: 'Songs, stories, and simple movement.' }
+        ];
+        return h('div', { className: 'video-grid' }, items.map((v) => {
+          const card = createVideoCard(v);
+          // Append annotation below title if present
+          if (v.note) {
+            card.appendChild(h('div', { className: 'video-note', text: v.note }));
+          }
+          return card;
+        }));
+      }
+
+      const navItems = {};
+      const nav = h('div', { className: 'cat-nav' }, cats.map((c, idx) => {
+        const item = h('button', { className: idx===0 ? 'cat-item active' : 'cat-item', attrs: { type: 'button', 'data-target': c }, onClick: () => {
+          const section = document.getElementById(`cat-${c}`);
+          if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } }, [ h('span', { className: 'cat-illustration', text: catEmoji(c) }), h('span', { text: displayName(c) }) ]);
+        navItems[c] = item; return item;
+      }));
+
+      const sections = cats.map((c) => h('section', { className: 'cat-section', attrs: { id: `cat-${c}` } }, [ h('h3', { className: 'cat-section-title', text: displayName(c) }), createVideoGrid(c) ]));
+      const layout = h('div', { className: 'grade-layout' }, [ nav, h('div', { className: 'cat-content' }, sections) ]);
+
+      root.appendChild(toolbar);
+      root.appendChild(layout);
+
+      const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+        let topMost = null;
+        entries.forEach((entry) => { if (entry.isIntersecting) { if (!topMost || entry.boundingClientRect.top < topMost.boundingClientRect.top) topMost = entry; } });
+        if (topMost) {
+          const id = topMost.target.getAttribute('id').replace('cat-', '');
+          Object.entries(navItems).forEach(([k, el]) => el.classList.toggle('active', k === id));
+        }
+      }, { root: null, threshold: 0.5 }) : null;
+      if (io) sections.forEach((sec) => io.observe(sec));
+    }
+    function renderGrades() {
+      root.innerHTML = "";
+      const title = h("section", { className: "hero" }, [
+        h("div", { className: "hero-left" }, [
+          h("h2", { text: "Pick your child's current grade" }),
+          h("p", { text: "Nursery through Class 9" })
+        ])
+      ]);
+
+      const gradeOptions = [
+        { id: "nursery", label: "Nursery" },
+        { id: "lkg", label: "LKG" },
+        { id: "ukg", label: "UKG" },
+        { id: "class-1", label: "Class 1" },
+        { id: "class-2", label: "Class 2" },
+        { id: "class-3", label: "Class 3" },
+        { id: "class-4", label: "Class 4" },
+        { id: "class-5", label: "Class 5" },
+        { id: "class-6", label: "Class 6" },
+        { id: "class-7", label: "Class 7" },
+        { id: "class-8", label: "Class 8" },
+        { id: "class-9", label: "Class 9" }
+      ];
+
+      const grid = h(
+        "div",
+        { className: "age-grid", attrs: { role: "list" } },
+        gradeOptions.map((g) =>
+          h(
+            "button",
+            {
+              className: "age-card",
+              attrs: { type: "button", role: "listitem" },
+              onClick: () => navigateToGrade(g.id)
+            },
+            [
+              h("div", { className: "age-card-main" }, [
+                h("div", {}, [
+                  h("div", { className: "age-card-title", text: g.label }),
+                  h("div", { className: "age-card-sub", text: "Tap to explore" })
+                ]),
+                h("div", { className: "age-card-arrow", text: "›" })
+              ])
+            ]
+          )
+        )
+      );
+
+      const section = h("section", { className: "age-section" }, [
+        h("div", { className: "age-label", text: "Select grade" }),
+        grid
+      ]);
+
+      root.appendChild(title);
+      root.appendChild(section);
+    }
+
+    function categoriesForGrade(gradeId) {
+      const primary = ["language", "art", "music", "stem", "fitness"];
+      const earlyPrimary = ["public-speaking", "chess", "music", "art", "robotics"];
+      const midPrimary = ["public-speaking", "chess", "art", "robotics"];
+      const middle = ["public-speaking", "robotics"];
+      if (gradeId === "nursery" || gradeId === "lkg") return primary;
+      if (["ukg", "class-1", "class-2", "class-3"].includes(gradeId)) return earlyPrimary;
+      if (["class-4", "class-5"].includes(gradeId)) return midPrimary;
+      if (["class-6", "class-7", "class-8"].includes(gradeId)) return middle;
+      // class-9 and others default to middle
+      return middle;
+    }
+
+    const mediaLibrary = (window.MEDIA_LIBRARY && Object.keys(window.MEDIA_LIBRARY).length)
+      ? window.MEDIA_LIBRARY
+      : {
+      "language": [
+        { title: "Language Fun", yt: "1FliG9MTmZc" },
+        { title: "Phonics Play", yt: "fKopy74weus" }
+      ],
+      "art": [
+        { title: "Creative Art", yt: "tAGnKpE4NCI" },
+        { title: "Color & Shapes", yt: "dQw4w9WgXcQ" }
+      ],
+      "music": [
+        { title: "Rhythm Basics", yt: "V-_O7nl0Ii0" },
+        { title: "Sing Along", yt: "ZZ5LpwO-An4" }
+      ],
+      "stem": [
+        { title: "STEM Tinkering", yt: "oHg5SJYRHA0" },
+        { title: "Simple Machines", yt: "C0DPdy98e4c" }
+      ],
+      "fitness": [
+        { title: "Kids Fitness", yt: "L_jWHffIx5E" },
+        { title: "Move & Play", yt: "9bZkp7q19f0" }
+      ],
+      "public-speaking": [
+        { title: "Speak Confidently", yt: "3GwjfUFyY6M" },
+        { title: "Storytelling", yt: "kJQP7kiw5Fk" }
+      ],
+      "chess": [
+        { title: "Chess Basics", yt: "ghCHL_1gKXQ" },
+        { title: "Checkmate Tricks", yt: "dpzu3HM2CIo" }
+      ],
+      "robotics": [
+        { title: "Robot Build", yt: "E7wJTI-1dvQ" },
+        { title: "Coding Robots", yt: "o1tj2zJ2Wvg" }
+      ]
+    };
+
+    function renderGradePrograms(gradeId) {
+      root.innerHTML = "";
+
+      const cats = categoriesForGrade(gradeId);
+
+      const title = h("section", { className: "toolbar" }, [
+        h("div", {}, [
+          h("div", { className: "toolbar-title", text: `Programs for ${gradeId.replace("-", " ").toUpperCase()}` }),
+          h("p", { className: "toolbar-sub", text: "Use the left navigation or scroll to explore categories" })
+        ]),
+        h("div", { className: "toolbar-actions" }, [
+          h(
+            "button",
+            { className: "btn btn-secondary", attrs: { type: "button" }, onClick: () => navigateToGrades() },
+            [h("span", { className: "btn-icon", text: "←" }), "Back to grades"]
+          ),
+          h(
+            "button",
+            { className: "btn btn-secondary", attrs: { type: "button" }, onClick: () => navigateHome() },
+            [h("span", { className: "btn-icon", text: "↺" }), "Start"]
+          )
+        ])
+      ]);
+
+      function displayName(cat) {
+        return cat.replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+      }
+      function catEmoji(cat) {
+        const map = { 'language': '📖', 'art': '🎨', 'music': '🎵', 'stem': '🔬', 'fitness': '🏃', 'public-speaking': '🎤', 'chess': '♟️', 'robotics': '🤖' };
+        return map[cat] || '⭐';
+      }
+      function catIllustrationEl(cat) {
+        const wrap = h('span', { className: 'cat-illustration' });
+        const img = document.createElement('img');
+        img.src = `assets/icons/${cat}.svg`;
+        img.alt = `${displayName(cat)} icon`;
+        img.width = 24; img.height = 24;
+        img.onload = () => wrap.appendChild(img);
+        img.onerror = () => { wrap.textContent = catEmoji(cat); };
+        // Append immediately; onload/onerror will handle content
+        wrap.appendChild(img);
+        return wrap;
+      }
+
+      
+      function createVideoGrid(cat) {
+        const items = mediaLibrary[cat] || [];
+        return h('div', { className: 'video-grid' }, items.map(createVideoCard));
+      }
+
+      const navItems = {};
+      const nav = h(
+        "div",
+        { className: "cat-nav" },
+        cats.map((c, idx) => {
+          const item = h(
+            "button",
+            {
+              className: idx === 0 ? "cat-item active" : "cat-item",
+              attrs: { type: "button", 'data-target': c },
+              onClick: () => {
+                const section = document.getElementById(`cat-${c}`);
+                if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            },
+            [
+              catIllustrationEl(c),
+              h("span", { text: displayName(c) })
+            ]
+          );
+          navItems[c] = item;
+          return item;
+        })
+      );
+
+      const sections = cats.map((c) =>
+        h("section", { className: "cat-section", attrs: { id: `cat-${c}` } }, [
+          h("h3", { className: "cat-section-title", text: displayName(c) }),
+          createVideoGrid(c)
+        ])
+      );
+
+      const layout = h("div", { className: "grade-layout" }, [
+        nav,
+        h("div", { className: "cat-content" }, sections)
+      ]);
+
+      // Append to DOM
+      root.appendChild(title);
+      root.appendChild(layout);
+
+      // Scrollspy for active nav
+      const io = ("IntersectionObserver" in window)
+        ? new IntersectionObserver((entries) => {
+            let topMost = null;
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                if (!topMost || entry.boundingClientRect.top < topMost.boundingClientRect.top) {
+                  topMost = entry;
+                }
+              }
+            });
+            if (topMost) {
+              const id = topMost.target.getAttribute('id').replace('cat-', '');
+              Object.entries(navItems).forEach(([k, el]) => el.classList.toggle('active', k === id));
+            }
+          }, { root: null, threshold: 0.5 })
+        : null;
+
+      if (io) sections.forEach((sec) => io.observe(sec));
+    }
+    function renderHome() {
+      root.innerHTML = "";
+
+      const hero = h("section", { className: "hero" }, [
+        h("div", { className: "hero-left" }, [
+          h("h2", {
+            html: "Find the right <span>Openhouse program</span> for your child"
+          }),
+          h("p", {
+            text: "Pick one option below and explore programs instantly."
+          })
+        ])
+      ]);
+
+      const ageSection = h("section", { className: "age-section" }, [
+        h("div", {
+          className: "age-label",
+          text: "Choose a program path"
+        }),
+        h(
+          "div",
+          { className: "options-grid" },
+          homepageOptions.map((opt) =>
+            h(
+              "button",
+              {
+                className: "age-card square-card",
+                attrs: { type: "button" },
+                onClick: opt.onClick
+              },
+              [
+                h("div", { className: "age-card-main" }, [
+                  h("div", {}, [
+                    h("div", { className: "option-title", text: opt.title }),
+                    h("div", { className: "option-age", text: opt.age }),
+                    h("div", { className: "option-desc", text: opt.desc })
+                  ]),
+                  h("div", { className: "age-card-arrow", text: "›" })
+                ])
+              ]
+            )
+          )
+        )
+      ]);
+
+      root.appendChild(hero);
+      root.appendChild(ageSection);
+    }
+
+    function renderPrograms(ageGroupId) {
+      const group = ageGroups.find((g) => g.id === ageGroupId);
+      if (!group) return;
+
+      root.innerHTML = "";
+
+      const toolbar = h("section", { className: "toolbar" }, [
+        h("div", {}, [
+          h("div", {
+            className: "toolbar-title",
+            text: `Programs for ${group.label}`
+          }),
+          h("p", {
+            className: "toolbar-sub",
+            text: group.blurb
+          })
+        ]),
+        h("div", { className: "toolbar-actions" }, [
+          h(
+            "button",
+            {
+              className: "btn btn-secondary",
+              attrs: { type: "button" },
+              onClick: () => {
+                navigateHome();
+              }
+            },
+            [h("span", { className: "btn-icon", text: "↺" }), "Start"]
+          ),
+          h(
+            "button",
+            {
+              className: "btn btn-primary",
+              attrs: { type: "button" },
+              onClick: () => {
+                // mailto link – can be changed to a form or WhatsApp link
+                window.location.href =
+                  "mailto:hello@openhouse.study?subject=I%27d%20like%20to%20know%20more%20about%20Openhouse%20programs&body=Hi%20Openhouse%20team%2C%0A%0AI%20was%20at%20your%20apartment%20showcase%20and%20would%20like%20to%20know%20more%20about%20your%20programs%20for%20my%20child.%0A%0AChild%27s%20age%3A%20%0AInterested%20programs%3A%20%0A%0AThanks!";
+              }
+            },
+            [h("span", { className: "btn-icon", text: "✉" }), "Share my details"]
+          )
+        ])
+      ]);
+
+      const programGrid = h(
+        "div",
+        { className: "program-grid" },
+        group.programs.map((prog) => createProgramCard(prog))
+      );
+
+      const layout = h("section", { className: "program-layout" }, [programGrid]);
+
+      root.appendChild(toolbar);
+      root.appendChild(layout);
+    }
+
+    function renderProgramsCombined(groupIds) {
+      const groups = groupIds
+        .map((id) => ageGroups.find((g) => g.id === id))
+        .filter(Boolean);
+      if (!groups.length) return;
+
+      root.innerHTML = "";
+
+      const toolbar = h("section", { className: "toolbar" }, [
+        h("div", {}, [
+          h("div", {
+            className: "toolbar-title",
+            text: "Programs for preschool / full school (18m–10 years)"
+          }),
+          h("p", {
+            className: "toolbar-sub",
+            text: groups.map((g) => g.blurb).join(" ")
+          })
+        ]),
+        h("div", { className: "toolbar-actions" }, [
+          h(
+            "button",
+            {
+              className: "btn btn-secondary",
+              attrs: { type: "button" },
+              onClick: () => {
+                navigateHome();
+              }
+            },
+            [h("span", { className: "btn-icon", text: "↺" }), "Start"]
+          ),
+          h(
+            "button",
+            {
+              className: "btn btn-primary",
+              attrs: { type: "button" },
+              onClick: () => {
+                window.location.href =
+                  "mailto:hello@openhouse.study?subject=I%27d%20like%20to%20know%20more%20about%20Openhouse%20programs&body=Hi%20Openhouse%20team%2C%0A%0AI%20was%20at%20your%20apartment%20showcase%20and%20would%20like%20to%20know%20more%20about%20your%20programs%20for%20my%20child.%0A%0AChild%27s%20age%3A%20%0AInterested%20programs%3A%20%0A%0AThanks!";
+              }
+            },
+            [h("span", { className: "btn-icon", text: "✉" }), "Share my details"]
+          )
+        ])
+      ]);
+
+      const allPrograms = groups.flatMap((g) => g.programs);
+      const programGrid = h(
+        "div",
+        { className: "program-grid" },
+        allPrograms.map((prog) => createProgramCard(prog))
+      );
+
+      const layout = h("section", { className: "program-layout" }, [programGrid]);
+
+      root.appendChild(toolbar);
+      root.appendChild(layout);
+    }
+
+    function createProgramCard(program) {
+      const detailsEl = h("p", {
+        className: "program-details",
+        text: program.details
+      });
+
+      const toggleBtn = h(
+        "button",
+        {
+          className: "toggle-details",
+          attrs: { type: "button" },
+          onClick: () => {
+            const visible = detailsEl.classList.toggle("visible");
+            toggleBtn.textContent = visible ? "Hide details" : "Learn more";
+          }
+        },
+        "Learn more"
+      );
+
+      const mailSubject = encodeURIComponent(
+        `Enquiry about ${program.name} (${program.ageBand})`
+      );
+      const mailBody = encodeURIComponent(
+        `Hi Openhouse team,\n\nI was at your apartment showcase and would like to know more about the "${program.name}" program for my child.\n\nChild's age: \nPreferred centre / location: \n\nThanks!`
+      );
+
+      const enquireBtn = h(
+        "button",
+        {
+          className: "btn btn-primary",
+          attrs: { type: "button" },
+          onClick: () => {
+            window.location.href = `mailto:hello@openhouse.study?subject=${mailSubject}&body=${mailBody}`;
+          }
+        },
+        ["Talk to us"]
+      );
+
+      return h("article", { className: "program-card" }, [
+        h("div", { className: "program-header" }, [
+          h("div", {}, [
+            h("div", { className: "program-name", text: program.name }),
+            h("div", { className: "program-age-pill", text: program.ageBand })
+          ]),
+          h("div", { className: "program-meta" }, [
+            h("span", {
+              className: "meta-pill",
+              text: program.format
+            }),
+            h("span", {
+              className: "meta-pill",
+              text: program.frequency
+            })
+          ])
+        ]),
+        h(
+          "ul",
+          { className: "program-points" },
+          program.keyPoints.map((p) => h("li", {}, p))
+        ),
+        detailsEl,
+        h("div", { className: "program-footer" }, [
+          h("div", { className: "program-cta" }, [
+            enquireBtn,
+            toggleBtn
+          ]),
+          h("div", {
+            className: "program-note",
+            text: "All sessions follow a play-based, child-led approach."
+          })
+        ])
+      ]);
+    }
+
+    // ---------- LIGHTBOX VIDEO PLAYER ----------
+    let lightboxEl = null;
+    function ensureLightbox() {
+      if (lightboxEl) return lightboxEl;
+      lightboxEl = document.createElement('div');
+      lightboxEl.className = 'lightbox';
+      lightboxEl.innerHTML = `
+        <div class="lightbox-inner" id="lightbox-inner"></div>
+        <button class="lightbox-close" id="lightbox-close" type="button">Close ✕</button>
+        <div class="lightbox-footer"><span id="lightbox-title"></span><a id="lightbox-ext" class="lightbox-ext" target="_blank" rel="noopener">Open in YouTube</a></div>
+      `;
+      document.body.appendChild(lightboxEl);
+      document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+      lightboxEl.addEventListener('click', (e) => { if (e.target === lightboxEl) closeLightbox(); });
+      return lightboxEl;
+    }
+    function openVideo(v) {
+      const lb = ensureLightbox();
+      const inner = document.getElementById('lightbox-inner');
+      const titleEl = document.getElementById('lightbox-title');
+      const ext = document.getElementById('lightbox-ext');
+      inner.innerHTML = '';
+      titleEl.textContent = v.title || '';
+      ext.style.display = 'none';
+      if (v.file) {
+        const video = document.createElement('video');
+        video.src = v.file;
+        video.controls = true;
+        video.playsInline = true;
+        video.autoplay = true;
+        if (v.poster) video.poster = v.poster;
+        inner.appendChild(video);
+        showLightbox(lb);
+        try { inner.requestFullscreen && inner.requestFullscreen(); } catch {}
+      } else if (v.yt) {
+        // Try embed first; some videos block embedding (error 153). Provide external link fallback.
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${v.yt}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.allowFullscreen = true;
+        iframe.title = v.title || 'Video';
+        inner.appendChild(iframe);
+        ext.href = `https://www.youtube.com/watch?v=${v.yt}`;
+        ext.style.display = 'inline';
+        showLightbox(lb);
+        try { inner.requestFullscreen && inner.requestFullscreen(); } catch {}
+      }
+    }
+    function showLightbox(el) { el.classList.add('visible'); }
+    function closeLightbox() {
+      if (!lightboxEl) return;
+      lightboxEl.classList.remove('visible');
+      const inner = document.getElementById('lightbox-inner');
+      if (inner) inner.innerHTML = '';
+      if (document.fullscreenElement) { try { document.exitFullscreen(); } catch {} }
+    }
+    // Back button binding and routing
+    const backBtn = document.getElementById("back-btn");
+    if (backBtn) {
+      backBtn.addEventListener("click", () => {
+        const route = parseHash();
+        if (route.type !== "home") {
+          if (history.length > 1) history.back();
+          else navigateHome();
+        }
+      });
+    }
+
+    window.addEventListener("hashchange", syncStateFromHash);
+    // Initial render based on URL
+    syncStateFromHash();
+  </script>
+</body>
+</html>
