@@ -46,6 +46,54 @@ Notes
 - You don’t need to change btl.html; the page auto-loads media/media.js if present.
 - If both 'yt' and 'file' are present, 'file' is used.
 
+Slideshows (mix images + videos)
+--------------------------------
+
+You can attach a slideshow to any category item (e.g., Parent–Toddler "Movement | My Body").
+Add an entry with an `items` array; each sub-item can be:
+
+- Image: `{ img: "media/images/pt/movement1.jpg", title: "Balance beam" }`
+- YouTube: `{ yt: "YOUTUBE_ID", title: "Warmup song" }`
+- Local MP4: `{ file: "media/videos/pt/body/warmup.mp4", poster: "..." }`
+- Google Drive: `{ gdriveLink: "https://drive.google.com/file/d/FILE_ID/view", title: "Gross motor" }`
+
+Example:
+
+window.MEDIA_LIBRARY = {
+  "pt-movement-my-body": [
+    {
+      title: "My Body Slideshow",
+      items: [
+        { img: "media/images/pt/body/pose-1.jpg", title: "Stretching" },
+        { gdriveLink: "https://drive.google.com/file/d/FILE_ID/view", title: "Jumping" },
+        { yt: "abc123XYZ", title: "Freeze dance" }
+      ]
+    }
+  ]
+}
+
+Auto-load from Google Drive folder
+----------------------------------
+
+You can point a slideshow at a Drive folder and the app will fetch items at runtime (images + videos):
+
+1) Enable Google Drive API for your Google Cloud project and create an API key
+2) In `media/media.js`, set:
+
+   window.DRIVE_API_KEY = "YOUR_GOOGLE_API_KEY";
+
+3) Add a slideshow with a `gdriveFolder` id (from the folder URL):
+
+   window.MEDIA_LIBRARY = {
+     "pt-movement-my-body": [
+       { title: "My Body Slideshow", gdriveFolder: "17czGuJYC3_VYVeWCcCagidA0Kf-QeWFb" }
+     ]
+   };
+
+Notes:
+- Restrict your API key by HTTP referrer to your site (e.g., your GitHub Pages domain).
+- Only files shared publicly (Anyone with the link: Viewer) will be visible.
+
 Preschool Overview (Option 1 – Case A)
 --------------------------------------
 

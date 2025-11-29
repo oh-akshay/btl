@@ -235,11 +235,11 @@
     }
 
     /* Two-up grid for binary choices */
-    .two-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .two-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; justify-items: center; }
     @media (max-width: 700px) { .two-grid { grid-template-columns: minmax(0, 1fr); } }
 
     /* Home options grid: 1 / 2 / 3 columns */
-    .options-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .options-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; justify-items: center; }
     @media (min-width: 700px) { .options-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
     @media (min-width: 1000px) { .options-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
 
@@ -256,7 +256,7 @@
       gap: 8px;
       min-height: 96px;
     }
-    .age-card.square-card { aspect-ratio: 1 / 1; justify-content: center; }
+    .age-card.square-card { aspect-ratio: 1 / 1; justify-content: center; width: 100%; max-width: 320px; }
     .square-card .age-card-main { flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
     .square-card .age-card-title { text-align: center; }
     .square-card .age-card-sub { text-align: center; }
@@ -269,17 +269,23 @@
     .home-choices .age-card-arrow { font-size: 20px; }
 
     /* Option card content hierarchy */
-    .option-title { font-size: 22px; font-weight: 600; }
-    .option-age { font-size: 14px; font-style: italic; color: var(--text-muted); }
-    .option-desc { font-size: 13px; color: var(--text-muted); max-width: 22ch; }
+    .option-title { font-size: 22px; font-weight: 600; text-align: center; margin-bottom: 8px; }
+    .option-age { font-size: 14px; font-style: italic; color: var(--text-muted); text-align: center; margin-bottom: 10px; }
+    .option-desc { font-size: 13px; color: var(--text-muted); max-width: 28ch; line-height: 1.55; text-align: center; margin: 12px auto 0; padding: 0 12px; }
 
     /* iPad-friendly option size */
     @media (min-width: 700px) {
       .options-grid .age-card.square-card { min-height: 220px; padding: 22px 18px; }
-      .options-grid .option-title { font-size: 24px; }
-      .options-grid .option-age { font-size: 15px; }
+      .options-grid .option-title { font-size: 24px; margin-bottom: 10px; }
+      .options-grid .option-age { font-size: 15px; margin-bottom: 12px; }
+      .options-grid .option-desc { margin-top: 14px; }
       .options-grid .age-card-arrow { font-size: 24px; }
     }
+
+    /* Grade selector: ensure left alignment */
+    .grade-select .age-card { align-items: stretch; }
+    .grade-select .age-card-main { flex-direction: row; align-items: center; text-align: left; gap: 8px; }
+    .grade-select .age-card-title, .grade-select .age-card-sub { text-align: left; }
 
     /* iPad-friendly sizing for two-up squares */
     @media (min-width: 700px) {
@@ -528,6 +534,7 @@
     .play-badge { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; border-radius: 999px; background: rgba(0,0,0,0.6); display: grid; place-items: center; }
     .play-badge::before { content: ""; display: block; width: 0; height: 0; border-left: 18px solid #fff; border-top: 12px solid transparent; border-bottom: 12px solid transparent; margin-left: 6px; }
     .video-title { font-size: 12px; padding: 8px 10px; color: var(--text-main); }
+    .video-empty { font-size: 12px; color: var(--text-muted); padding: 12px; border: 1px dashed #ddd; border-radius: 10px; background: #fff; }
 
     /* Lightbox overlay */
     .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 100; }
@@ -537,6 +544,8 @@
     .lightbox-close { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; border-radius: 999px; padding: 6px 10px; cursor: pointer; font-size: 12px; }
     .lightbox-footer { position: absolute; bottom: 8px; left: 10px; right: 10px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 12px; opacity: 0.9; }
     .lightbox-ext { color: #fff; text-decoration: underline; }
+    .lightbox-nav { position: absolute; inset: 0; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+    .lb-btn { pointer-events: all; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; border-radius: 999px; padding: 8px 10px; cursor: pointer; font-size: 14px; margin: 0 10px; }
     .video-note { font-size: 11px; color: var(--text-muted); padding: 0 10px 10px; }
 
     /* Grade programs layout with left nav */
@@ -877,13 +886,37 @@
     }
 
     // ---------- MEDIA HELPERS ----------
-    function ytThumb(id) {
-      return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    function ytThumb(id) { return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`; }
+    function driveThumb(id) { return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`; }
+    function getDriveId(v) {
+      if (v.gdriveId) return v.gdriveId;
+      const link = v.gdriveLink || v.link || '';
+      if (!link) return null;
+      // Common Drive URL patterns
+      const patterns = [
+        /\/file\/d\/([^/]+)\//,
+        /[?&]id=([^&]+)/,
+      ];
+      for (const re of patterns) {
+        const m = link.match(re);
+        if (m && m[1]) return m[1];
+      }
+      return null;
     }
     function createVideoCard(v) {
       const isYt = !!v.yt;
-      const thumb = v.poster || (isYt ? ytThumb(v.yt) : null);
-      return h('div', { className: 'video-card', onClick: () => openVideo(v) }, [
+      const driveId = getDriveId(v);
+      const isGd = !!driveId;
+      // If slideshow, pick first item's thumb
+      let first = null;
+      if (Array.isArray(v.items) && v.items.length) first = v.items[0];
+      const isFolderShow = !!v.gdriveFolder;
+      const firstDriveId = first ? getDriveId(first) : null;
+      const thumb = v.poster
+        || (first && (first.poster || (first.yt ? ytThumb(first.yt) : (firstDriveId ? driveThumb(firstDriveId) : null))))
+        || (isYt ? ytThumb(v.yt) : (isGd ? driveThumb(driveId) : null));
+      const onClick = (Array.isArray(v.items) && v.items.length) || isFolderShow ? () => openSlideshow(v) : () => openVideo(v);
+      return h('div', { className: 'video-card', onClick }, [
         h('div', { className: 'video-aspect' }, [
           thumb ? h('div', { className: 'video-thumb', attrs: { style: `background-image:url(${thumb})` } }) : null,
           h('div', { className: 'play-badge' })
@@ -924,10 +957,7 @@
           )
         )
       );
-      const section = h('section', { className: 'age-section' }, [
-        h('div', { className: 'age-label', text: 'Choose an option' }),
-        grid
-      ]);
+      const section = h('section', { className: 'age-section' }, [ grid ]);
 
       root.appendChild(hero);
       root.appendChild(section);
@@ -977,7 +1007,15 @@
 
     function renderParentToddler() {
       root.innerHTML = '';
-      const cats = [ 'toddler-sensory', 'toddler-bonding', 'toddler-music' ];
+      const cats = [
+        { id: 'pt-art-colours', emoji: '🎨', label: 'Art | Colours' },
+        { id: 'pt-sensory-food', emoji: '🥣', label: 'Sensory | Food' },
+        { id: 'pt-sensory-nature', emoji: '🌿', label: 'Sensory | Nature' },
+        { id: 'pt-movement-things-that-move', emoji: '🚗', label: 'Movement | Things That Move' },
+        { id: 'pt-movement-my-body', emoji: '🤸', label: 'Movement | My Body' },
+        { id: 'pt-music-storytelling-animals', emoji: '🎶', label: 'Music & Storytelling | Animals' },
+        { id: 'pt-practical-life-me-home', emoji: '🏡', label: 'Practical Life | Me & my home' }
+      ];
 
       const toolbar = h('section', { className: 'toolbar' }, [
         h('div', {}, [
@@ -990,16 +1028,11 @@
         ])
       ]);
 
-      function displayName(cat) {
-        return cat.replace('toddler-', '').replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
-      }
-      function catEmoji(cat) {
-        const map = { 'toddler-sensory': '🧪', 'toddler-bonding': '🫶', 'toddler-music': '🎶' };
-        return map[cat] || '⭐';
-      }
+      function displayName(obj) { return obj.label; }
+      function catEmoji(obj) { return obj.emoji || '⭐'; }
 
-      function createVideoGrid(cat) {
-        const items = mediaLibrary[cat] || [
+      function createVideoGrid(catId) {
+        const items = mediaLibrary[catId] || [
           { title: 'Sample Session 1', yt: 'dQw4w9WgXcQ', note: 'Gentle introduction with parent–child play.' },
           { title: 'Sample Session 2', yt: 'C0DPdy98e4c', note: 'Songs, stories, and simple movement.' }
         ];
@@ -1015,14 +1048,14 @@
 
       const navItems = {};
       const nav = h('div', { className: 'cat-nav' }, cats.map((c, idx) => {
-        const item = h('button', { className: idx===0 ? 'cat-item active' : 'cat-item', attrs: { type: 'button', 'data-target': c }, onClick: () => {
-          const section = document.getElementById(`cat-${c}`);
+        const item = h('button', { className: idx===0 ? 'cat-item active' : 'cat-item', attrs: { type: 'button', 'data-target': c.id }, onClick: () => {
+          const section = document.getElementById(`cat-${c.id}`);
           if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } }, [ h('span', { className: 'cat-illustration', text: catEmoji(c) }), h('span', { text: displayName(c) }) ]);
-        navItems[c] = item; return item;
+        navItems[c.id] = item; return item;
       }));
 
-      const sections = cats.map((c) => h('section', { className: 'cat-section', attrs: { id: `cat-${c}` } }, [ h('h3', { className: 'cat-section-title', text: displayName(c) }), createVideoGrid(c) ]));
+      const sections = cats.map((c) => h('section', { className: 'cat-section', attrs: { id: `cat-${c.id}` } }, [ h('h3', { className: 'cat-section-title', text: `${c.emoji} ${displayName(c)}` }), createVideoGrid(c.id) ]));
       const layout = h('div', { className: 'grade-layout' }, [ nav, h('div', { className: 'cat-content' }, sections) ]);
 
       root.appendChild(toolbar);
@@ -1086,7 +1119,7 @@
         )
       );
 
-      const section = h("section", { className: "age-section" }, [
+      const section = h("section", { className: "age-section grade-select" }, [
         h("div", { className: "age-label", text: "Select grade" }),
         grid
       ]);
@@ -1108,42 +1141,11 @@
       return middle;
     }
 
+    // Remove default library so only media/media.js controls content
+    const defaultLibrary = {};
     const mediaLibrary = (window.MEDIA_LIBRARY && Object.keys(window.MEDIA_LIBRARY).length)
-      ? window.MEDIA_LIBRARY
-      : {
-      "language": [
-        { title: "Language Fun", yt: "1FliG9MTmZc" },
-        { title: "Phonics Play", yt: "fKopy74weus" }
-      ],
-      "art": [
-        { title: "Creative Art", yt: "tAGnKpE4NCI" },
-        { title: "Color & Shapes", yt: "dQw4w9WgXcQ" }
-      ],
-      "music": [
-        { title: "Rhythm Basics", yt: "V-_O7nl0Ii0" },
-        { title: "Sing Along", yt: "ZZ5LpwO-An4" }
-      ],
-      "stem": [
-        { title: "STEM Tinkering", yt: "oHg5SJYRHA0" },
-        { title: "Simple Machines", yt: "C0DPdy98e4c" }
-      ],
-      "fitness": [
-        { title: "Kids Fitness", yt: "L_jWHffIx5E" },
-        { title: "Move & Play", yt: "9bZkp7q19f0" }
-      ],
-      "public-speaking": [
-        { title: "Speak Confidently", yt: "3GwjfUFyY6M" },
-        { title: "Storytelling", yt: "kJQP7kiw5Fk" }
-      ],
-      "chess": [
-        { title: "Chess Basics", yt: "ghCHL_1gKXQ" },
-        { title: "Checkmate Tricks", yt: "dpzu3HM2CIo" }
-      ],
-      "robotics": [
-        { title: "Robot Build", yt: "E7wJTI-1dvQ" },
-        { title: "Coding Robots", yt: "o1tj2zJ2Wvg" }
-      ]
-    };
+      ? Object.assign({}, defaultLibrary, window.MEDIA_LIBRARY)
+      : defaultLibrary;
 
     function renderGradePrograms(gradeId) {
       root.innerHTML = "";
@@ -1190,8 +1192,21 @@
       }
 
       
+      // Grade-aware filter for media entries
+      const gradeOrder = ['nursery','lkg','ukg','class-1','class-2','class-3','class-4','class-5','class-6','class-7','class-8','class-9'];
+      function gradeRank(g) { return Math.max(0, gradeOrder.indexOf(g)); }
+
       function createVideoGrid(cat) {
-        const items = mediaLibrary[cat] || [];
+        let items = mediaLibrary[cat] || [];
+        // If entries include minGrade, filter based on current gradeId
+        if (items.length && items[0] && (items[0].minGrade || items.some(x => x.minGrade))) {
+          items = items.filter(v => !v.minGrade || gradeRank(gradeId) >= gradeRank(v.minGrade));
+        }
+        if (!items.length) {
+          return h('div', {}, [
+            h('div', { className: 'video-empty', text: 'Videos coming soon for this category.' })
+          ]);
+        }
         return h('div', { className: 'video-grid' }, items.map(createVideoCard));
       }
 
@@ -1271,10 +1286,6 @@
       ]);
 
       const ageSection = h("section", { className: "age-section" }, [
-        h("div", {
-          className: "age-label",
-          text: "Choose a program path"
-        }),
         h(
           "div",
           { className: "options-grid" },
@@ -1504,12 +1515,31 @@
       lightboxEl.innerHTML = `
         <div class="lightbox-inner" id="lightbox-inner"></div>
         <button class="lightbox-close" id="lightbox-close" type="button">Close ✕</button>
-        <div class="lightbox-footer"><span id="lightbox-title"></span><a id="lightbox-ext" class="lightbox-ext" target="_blank" rel="noopener">Open in YouTube</a></div>
+        <div class="lightbox-footer"><span id="lightbox-title"></span><a id="lightbox-ext" class="lightbox-ext" target="_blank" rel="noopener">Open externally</a></div>
+        <div class="lightbox-nav">
+          <button id="lightbox-prev" class="lb-btn" type="button">‹ Prev</button>
+          <button id="lightbox-next" class="lb-btn" type="button">Next ›</button>
+        </div>
       `;
       document.body.appendChild(lightboxEl);
       document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
       lightboxEl.addEventListener('click', (e) => { if (e.target === lightboxEl) closeLightbox(); });
+      document.getElementById('lightbox-prev').addEventListener('click', prevSlide);
+      document.getElementById('lightbox-next').addEventListener('click', nextSlide);
       return lightboxEl;
+    }
+    let _slideshow = null;
+    const _driveCache = {};
+    async function fetchDriveFolder(folderId) {
+      const apiKey = window.DRIVE_API_KEY;
+      if (!apiKey) throw new Error('Missing DRIVE_API_KEY');
+      const q = encodeURIComponent(`'${folderId}' in parents and trashed = false`);
+      const fields = encodeURIComponent('files(id,name,mimeType,thumbnailLink)');
+      const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=${fields}&key=${apiKey}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Drive API error');
+      const data = await res.json();
+      return (data.files || []).map(f => ({ id: f.id, name: f.name, mimeType: f.mimeType, thumb: f.thumbnailLink }));
     }
     function openVideo(v) {
       const lb = ensureLightbox();
@@ -1541,7 +1571,84 @@
         ext.style.display = 'inline';
         showLightbox(lb);
         try { inner.requestFullscreen && inner.requestFullscreen(); } catch {}
+      } else if (getDriveId(v)) {
+        const id = getDriveId(v);
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://drive.google.com/file/d/${id}/preview`;
+        iframe.allow = 'autoplay';
+        iframe.allowFullscreen = true;
+        iframe.title = v.title || 'Video';
+        inner.appendChild(iframe);
+        ext.href = `https://drive.google.com/file/d/${id}/view`;
+        ext.style.display = 'inline';
+        showLightbox(lb);
+        try { inner.requestFullscreen && inner.requestFullscreen(); } catch {}
       }
+    }
+    function renderSlide() {
+      if (!_slideshow) return;
+      const lb = ensureLightbox();
+      const inner = document.getElementById('lightbox-inner');
+      const titleEl = document.getElementById('lightbox-title');
+      const ext = document.getElementById('lightbox-ext');
+      const v = _slideshow.items[_slideshow.index];
+      inner.innerHTML = '';
+      titleEl.textContent = `${_slideshow.title || ''} ${_slideshow.items.length > 1 ? `(${_slideshow.index+1}/${_slideshow.items.length})` : ''}`;
+      ext.style.display = 'none';
+      if (v.img) {
+        const img = document.createElement('img');
+        img.src = v.img;
+        img.alt = v.title || '';
+        img.style.position = 'absolute'; img.style.inset = '0'; img.style.width = '100%'; img.style.height = '100%'; img.style.objectFit = 'contain';
+        inner.appendChild(img);
+        if (v.link) { ext.href = v.link; ext.style.display = 'inline'; }
+        showLightbox(lb);
+      } else if (v.yt || v.file || getDriveId(v)) {
+        openVideo(v);
+      }
+    }
+    async function openSlideshow(obj) {
+      try {
+        if (obj.items && obj.items.length) {
+          _slideshow = { items: obj.items, index: 0, title: obj.title };
+          renderSlide();
+          return;
+        }
+        if (obj.gdriveFolder) {
+          const folderId = obj.gdriveFolder;
+          if (!_driveCache[folderId]) {
+            const files = await fetchDriveFolder(folderId);
+            _driveCache[folderId] = files;
+          }
+          const files = _driveCache[folderId];
+          const items = files.map(f => {
+            if (f.mimeType && f.mimeType.startsWith('image/')) {
+              return { img: `https://drive.google.com/uc?export=view&id=${f.id}`, title: f.name };
+            }
+            if (f.mimeType && f.mimeType.startsWith('video/')) {
+              return { gdriveLink: `https://drive.google.com/file/d/${f.id}/view`, title: f.name };
+            }
+            // Fallback: try preview as video
+            return { gdriveLink: `https://drive.google.com/file/d/${f.id}/view`, title: f.name };
+          });
+          _slideshow = { items, index: 0, title: obj.title };
+          renderSlide();
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+        alert('Unable to load slideshow. If using Google Drive, please set DRIVE_API_KEY.');
+      }
+    }
+    function nextSlide() {
+      if (!_slideshow) return;
+      _slideshow.index = (_slideshow.index + 1) % _slideshow.items.length;
+      renderSlide();
+    }
+    function prevSlide() {
+      if (!_slideshow) return;
+      _slideshow.index = (_slideshow.index - 1 + _slideshow.items.length) % _slideshow.items.length;
+      renderSlide();
     }
     function showLightbox(el) { el.classList.add('visible'); }
     function closeLightbox() {
